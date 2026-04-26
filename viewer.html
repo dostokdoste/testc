@@ -5,28 +5,23 @@
   <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
 </head>
 <body>
-  <h2>Live Camera Viewer</h2>
-  <input id="peerid" placeholder="Enter Camera ID">
-  <button onclick="connect()">Watch</button>
-  <br><br>
-  <video id="video" autoplay playsinline></video>
 
-  <script>
-    const peer = new Peer();
-    const video = document.getElementById("video");
+<h2>Connecting...</h2>
+<video id="video" autoplay playsinline style="width:100%;"></video>
 
-    function connect() {
-      const id = document.getElementById("peerid").value;
+<script>
+  const video = document.getElementById("video");
 
-      navigator.mediaDevices.getUserMedia({ video: false, audio: false })
-        .then(() => {
-          const call = peer.call(id, null);
+  const peer = new Peer();
 
-          call.on('stream', stream => {
-            video.srcObject = stream;
-          });
-        });
-    }
-  </script>
+  peer.on('open', () => {
+    const call = peer.call("camera123", null);
+
+    call.on('stream', stream => {
+      video.srcObject = stream;
+    });
+  });
+</script>
+
 </body>
 </html>
